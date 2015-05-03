@@ -26,4 +26,11 @@ class GameController < ApplicationController
     response.stream.close
   end
 
+  def join
+    @game = Game.find(params[:id])
+    @game.users << current_user
+    @game.save!
+    redirect_to show_game_path(@game)
+  end
+
 end

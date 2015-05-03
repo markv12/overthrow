@@ -1,14 +1,32 @@
-Game View
-<h3>Users:</h3>
-<div class="userList"></div>
+<% if @game.users.include?(current_user) %>
+  <h3>Users:</h3>
+  <div class="userList">
+    <% @game.users.each do |user| %>
+      <p>
+        <%= user.name %>
+      </p>
+    <% end %>
+  </div>
 
-<script>
-  var source = new EventSource('/game_events/<%= @game.id %>');
-  source.addEventListener("message", function(event){
-    data = JSON.parse(event.data);
-    $(".userList").empty();
-    data.users.forEach(function(user) {
-      $(".userList").append("<p>" + user[1] + "</p>");
-    });
-});
-</script>
+  <script>
+    var source = new EventSource('/game_events/<%= @game.id %>');
+    source.addEventListener("message", function(event){
+      data = JSON.parse(event.data);
+      $(".userList").empty();
+      data.users.forEach(function(user) {
+        $(".userList").append("<p>" + user[1] + "</p>");
+      });
+  });
+  </script>
+<% elsif current_user %>
+  <div class="row">
+    <div class="large-4 columns centered">
+      <a href="<%=join_game_path(:id => @game)%>">
+      <div class="panel link-panel" >
+        &nbsp; <h2 style="margin-bottom:22px">Join This Game!</h2>
+      </div></a>
+    </div>
+  </div>
+<% else %>
+  <h3><%= link_to 'Login', new_user_session_path %></h3>
+<% end %>
