@@ -27,6 +27,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use unicorn as the app server
 gem 'unicorn'
+gem 'puma'
 
 gem 'rails_12factor'
 gem 'authlogic'

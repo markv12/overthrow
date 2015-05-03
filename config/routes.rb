@@ -6,7 +6,8 @@ Rails.application.routes.draw do
   get '/users/new', to: 'users#new', as: 'new_user'
   post '/users', to: 'users#create'
 
-  get '/game', to: 'game#events'
+  get '/game_events/:id', to: 'game#events'
+  get '/game/:id', to: 'game#show', as: 'show_game'
 
   resources :user_sessions
   get '/logout', to: 'user_sessions#destroy', as: 'destroy_user_session'

@@ -1,0 +1,14 @@
+Game View
+<h3>Users:</h3>
+<div class="userList"></div>
+
+<script>
+  var source = new EventSource('/game_events/<%= @game.id %>');
+  source.addEventListener("message", function(event){
+    data = JSON.parse(event.data);
+    $(".userList").empty();
+    data.users.forEach(function(user) {
+      $(".userList").append("<p>" + user[1] + "</p>");
+    });
+});
+</script>
