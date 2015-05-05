@@ -1,4 +1,4 @@
-<% if @game.users.include?(current_user) %>
+<% if current_user && @game.users.include?(current_user) %>
   <h3>Users:</h3>
   <div class="userList">
     <% @game.users.each do |user| %>
@@ -12,6 +12,7 @@
     var source = new EventSource('/game_events/<%= @game.id %>');
     source.addEventListener("message", function(event){
       data = JSON.parse(event.data);
+      console.log(data.toString());
       $(".userList").empty();
       data.users.forEach(function(user) {
         $(".userList").append("<p>" + user[1] + "</p>");

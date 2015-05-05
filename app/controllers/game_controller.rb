@@ -8,17 +8,16 @@ class GameController < ApplicationController
   def events
     response.headers["Content-Type"] = "text/event-stream"
     @game = Game.find(params[:id])
-    @game.on_state_change do |game|
-      Game.uncached do
-        @game.reload
-        game_users = @game.users.pluck(:id, :name)
-        data = {
-          game: @game,
-          users: game_users
-        }
-        data_string = "data: " + data.to_json + "\n\n"
-        response.stream.write(data_string)
+
+    Thread::new do
+      loop do
+        send_game_status
+        sleep 4
       end
+    end
+
+    @game.on_state_change do |game|
+      send_game_status
     end
   rescue IOError
     logger.info "Stream Has Closed"
@@ -31,6 +30,21 @@ class GameController < ApplicationController
     @game.users << current_user
     @game.save!
     redirect_to show_game_path(@game)
+  end
+
+  private
+
+  def send_game_status
+    Game.uncached do
+      @game.reload
+      game_users = @game.users.pluck(:id, :name)
+      data = {
+        game: @game,
+        users: game_users
+      }
+      data_string = "data: " + data.to_json + "\n\n"
+      response.stream.write(data_string)
+    end
   end
 
 end
