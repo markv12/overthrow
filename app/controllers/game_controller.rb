@@ -12,7 +12,7 @@ class GameController < ApplicationController
     Thread::new do
       loop do
         send_game_status
-        sleep 70
+        sleep 45
       end
     end
 

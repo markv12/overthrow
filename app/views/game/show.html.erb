@@ -13,7 +13,7 @@
     source.addEventListener("message", function(event){
       data = JSON.parse(event.data);
       console.log(data.toString());
-      //$(".userList").empty();
+      $(".userList").empty();
       data.users.forEach(function(user) {
         $(".userList").append("<p>" + user[1] + "</p>");
       });
