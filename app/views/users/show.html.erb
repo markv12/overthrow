@@ -3,7 +3,7 @@
   <br>
     <% for game in @user.games %>
       <p>
-        <%= game.name %>
+        <%= link_to(game.name, show_game_path(game)) %>
       </p>
     <% end %>
 </span>

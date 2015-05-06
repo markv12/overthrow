@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150506005611) do
+ActiveRecord::Schema.define(version: 20150506014709) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,11 +31,19 @@ ActiveRecord::Schema.define(version: 20150506005611) do
   add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
   add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
 
+  create_table "cards", force: true do |t|
+    t.text     "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "game_user_connections", force: true do |t|
     t.integer  "game_id"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "money",      default: 0, null: false
   end
 
   create_table "games", force: true do |t|
@@ -43,6 +51,14 @@ ActiveRecord::Schema.define(version: 20150506005611) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "name",                 default: "unnamed", null: false
+  end
+
+  create_table "user_game_card_connections", force: true do |t|
+    t.integer  "card_id"
+    t.integer  "game_user_connections_id"
+    t.boolean  "overthrown",               default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "user_sessions", force: true do |t|

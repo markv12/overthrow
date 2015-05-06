@@ -15,7 +15,7 @@
       console.log(data.toString());
       $(".userList").empty();
       data.users.forEach(function(user) {
-        $(".userList").append("<p>" + user[1] + "</p>");
+        $(".userList").append("<p>" + user['name'] + " " + user['money'] + "</p>");
       });
   });
   </script>

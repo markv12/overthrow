@@ -37,7 +37,13 @@ class GameController < ApplicationController
   def send_game_status
     Game.uncached do
       @game.reload
-      game_users = @game.users.pluck(:id, :name)
+      game_users = @game.game_user_connections.includes(:user).map{|conn|
+        user_data = Hash.new
+        user_data['id'] = conn.user.id
+        user_data['name'] = conn.user.name
+        user_data['money'] = conn.money
+        user_data
+      }
       data = {
         game: @game,
         users: game_users
