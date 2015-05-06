@@ -1,5 +1,9 @@
 <span class="centered">
   <h2>Hello <%=h @user.name %></h2>
   <br>
-  <%= render partial:'menu', locals: {user: @user} %>
+    <% for game in @user.games %>
+      <p>
+        <%= game.name %>
+      </p>
+    <% end %>
 </span>

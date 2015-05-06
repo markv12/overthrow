@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  ActiveAdmin.routes(self)
   root 'front_page#index'
 
   get '/me', to: 'users#show'
