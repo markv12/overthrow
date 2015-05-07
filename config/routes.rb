@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   get '/game_events/:id', to: 'game#events'
   get '/game/:id', to: 'game#show', as: 'show_game'
+  get '/game/:id/init_game/', to: 'game#init_game', as: 'init_game'
   get '/game/:id/join/', to: 'game#join', as: 'join_game'
 
   resources :user_sessions

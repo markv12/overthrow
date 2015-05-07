@@ -32,9 +32,20 @@ class GameController < ApplicationController
     redirect_to show_game_path(@game)
   end
 
+  def init_game
+    @game = Game.find(params[:id])
+    @game.game_user_connections.each{|conn|
+      conn.money +=3;
+      conn.save!
+    }
+    @game.save!
+    render :nothing => true, :status => 200, :content_type => 'text/html'
+  end
+
   private
 
   def send_game_status
+    Authlogic::Session::Base.controller = Authlogic::ControllerAdapters::RailsAdapter.new(self)
     Game.uncached do
       @game.reload
       game_users = @game.game_user_connections.includes(:user).map{|conn|
@@ -46,7 +57,8 @@ class GameController < ApplicationController
       }
       data = {
         game: @game,
-        users: game_users
+        users: game_users,
+        me: current_user.id
       }
       data_string = "data: " + data.to_json + "\n\n"
       response.stream.write(data_string)

@@ -32,6 +32,8 @@ gem 'puma'
 gem 'rails_12factor'
 gem 'authlogic'
 gem 'foundation-rails'
+gem 'angularjs-rails'
+
 gem 'activeadmin', github: 'activeadmin'
 
 group :test, :development do
